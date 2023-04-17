@@ -5,139 +5,90 @@ const lines = readFileSync("tasks/template/input.txt", { encoding: 'utf-8'})
     .trim().split(/\n/).map((line) => line.split(' '));
 
 
-function part1() {
-    const draw = [];
-    const win = [];
-    const loss = [];
-    const x = [];
-    const y = [];
-    const z = [];
-    for (const shootOut of lines) {
-        if(shootOut[0] === 'A' && shootOut[1] === 'X') {
-            draw.push(shootOut);
-            x.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'B' && shootOut[1] === 'Y') {
-            draw.push(shootOut);
-            y.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'C' && shootOut[1] === 'Z') {
-            draw.push(shootOut);
-            z.push(shootOut[1])
-
-        }
-
-        if(shootOut[0] === 'A' && shootOut[1] === 'Y') {
-            win.push(shootOut);
-            y.push(shootOut[1])
-
-        }
-
-        if(shootOut[0] === 'B' && shootOut[1] === 'Z') {
-            win.push(shootOut);
-            z.push(shootOut[1])
-
-        }
-
-        if(shootOut[0] === 'C' && shootOut[1] === 'X') {
-            win.push(shootOut);
-            x.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'A' && shootOut[1] === 'Z') {
-            loss.push(shootOut);
-            z.push(shootOut[1])
-
-        }
-
-        if(shootOut[0] === 'B' && shootOut[1] === 'X') {
-            loss.push(shootOut);
-            x.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'C' && shootOut[1] === 'Y') {
-            loss.push(shootOut);
-            y.push(shootOut[1])
-
-        }
+    const alphabet = {
+        a: 1,
+        b: 2,
+        c: 3,
+        d: 4,
+        e: 5,
+        f: 6,
+        g: 7,
+        h: 8,
+        i: 9,
+        j: 10,
+        k: 11,
+        l: 12,
+        m: 13,
+        n: 14,
+        o: 15,
+        p: 16,
+        q: 17,
+        r: 18,
+        s: 19,
+        t: 20,
+        u: 21,
+        v: 22,
+        w: 23,
+        x: 24,
+        y: 25,
+        z: 26,
+        A: 27,
+        B: 28,
+        C: 29,
+        D: 30,
+        E: 31,
+        F: 32,
+        G: 33,
+        H: 34,
+        I: 35,
+        J: 36,
+        K: 37,
+        L: 38,
+        M: 39,
+        N: 40,
+        O: 41,
+        P: 42,
+        Q: 43,
+        R: 44,
+        S: 45,
+        T: 46,
+        U: 47,
+        V: 48,
+        W: 49,
+        X: 50,
+        Y: 51,
+        Z: 52,
     }
 
-    const drawScore = draw.length * 3;
-    const winScore = win.length * 6;
-    const xScore = x.length;
-    const yScore= y.length * 2;
-    const zScore = z.length * 3;
+function findMatchingItem(stack){
+    const split = stack[0].split('');
+    const middleIndex = Math.ceil(split.length / 2);
+    const firstHalf = split.splice(0, middleIndex);
+    const secondHalf = split.splice(-middleIndex);
 
-    const totalScore = drawScore + winScore + xScore +yScore + zScore
+    for (let i = 0; i < firstHalf.length; i++) {
+        for (let j = 0; j < secondHalf.length; j++) {
+            if(firstHalf[i] === secondHalf[j]) {
+                return alphabet[firstHalf[i]];
+            }
+        }
+    }
+}
 
-    console.log(totalScore)
+function part1() {
+    const sameItems= [];
 
+    lines.forEach((stack) => {
+        sameItems.push(findMatchingItem(stack))
+    })
+
+    const sum = sameItems.reduce((a, b) => a + b, 0);
+
+    console.log(sum)
 }
 
 
 function part2() {
-    const draw = [];
-    const win = [];
-    const x = [];
-    const y = [];
-    const z = [];
-    for (const shootOut of lines) {
-        if(shootOut[0] === 'A' && shootOut[1] === 'Y') {
-            draw.push(shootOut);
-            x.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'B' && shootOut[1] === 'Y' ) {
-            draw.push(shootOut);
-            y.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'C' && shootOut[1] === 'Y') {
-            draw.push(shootOut);
-            z.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'A' && shootOut[1] === 'Z') {
-            win.push(shootOut);
-            y.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'B' && shootOut[1] === 'Z' ) {
-            win.push(shootOut);
-            z.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'C' && shootOut[1] === 'Z') {
-            win.push(shootOut);
-            x.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'A' && shootOut[1] === 'X') {
-            z.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'B' && shootOut[1] === 'X' ) {
-
-            x.push(shootOut[1])
-        }
-
-        if(shootOut[0] === 'C' && shootOut[1] === 'X') {
-            y.push(shootOut[1])
-        }
-    }
-
-    const drawScore = draw.length * 3;
-    const winScore = win.length * 6;
-    const xScore = x.length;
-    const yScore= y.length * 2;
-    const zScore = z.length * 3;
-
-    const totalScore = drawScore + winScore + xScore +yScore + zScore
-
-    console.log(totalScore)
-
 }
 
 part1()
